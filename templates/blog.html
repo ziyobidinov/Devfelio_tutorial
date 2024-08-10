@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<!--/ Intro Skew Star /-->
+<div class="intro intro-single route bg-image" style="background-image: url(/static/img/overlay-bg.jpg)">
+    <div class="overlay-mf"></div>
+    <div class="intro-content display-table">
+      <div class="table-cell">
+        <div class="container">
+          <h2 class="intro-title mb-4">Blog Details</h2>
+          <ol class="breadcrumb d-flex justify-content-center">
+            <li class="breadcrumb-item">
+              <a href="{% url 'common:home' %}">Home</a>
+            </li>
+            <li class="breadcrumb-item active">
+              <a href="/blogs/">Library</a>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--/ Intro Skew End /-->
+
+
+<section id="blog" class="blog-mf sect-pt4 route">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="title-box text-center">
+            <h3 class="title-a">
+              Blog
+            </h3>
+            <p class="subtitle-a">
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+            </p>
+            <div class="line-mf"></div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        {% for blog in objects %}
+        <div class="col-md-4">
+          <div class="card card-blog">
+            <div class="card-img">
+              <a href="{% url 'common:blog-single' blog.slug %}"><img src="{{ blog.main_image.url }}" alt="" class="img-fluid"></a>
+            </div>
+            <div class="card-body">
+              <div class="card-category-box">
+                <div class="card-category">
+                  {% for category in blog.categories.all %}
+                  <h6 class="category">{{ category.title }}</h6>
+                  {% endfor %}
+                </div>
+              </div>
+              <h3 class="card-title"><a href="{% url 'common:blog-single' blog.slug %}">{{ blog.title }}</a></h3>
+              <p class="card-description">
+                {{ blog.description }}
+              </p>
+            </div>
+            <div class="card-footer">
+              <div class="post-author">
+                <a href="{% url 'common:blog-single' blog.slug %}">
+                  <img src="/static/img/testimonial-2.jpg" alt="" class="avatar rounded-circle">
+                  <span class="author">{{ blog.author }}</span>
+                </a>
+              </div>
+              <div class="post-date">
+                <span class="ion-ios-clock-outline"></span> {{ blog.read_time }}
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+        <div class="bizagne--pagination">
+            {% if page_obj.has_previous %}
+            <a href="?page={{page_obj.previous_page_number}}"><i class="fa fa-angle-left"></i></a>
+            {% endif %}
+
+            {% for page in page_obj.paginator.page_range %}
+            {% if page_obj.number == range %}
+            <span class="current" style="color:red;">{{page}}</span>
+            {% else %}
+            <a href="?page={{page}}">{{page}}</a>
+            {% endif %}
+            {% endfor %}
+        
+            {% if page_obj.has_next %}
+            <a href="?page={{page_obj.next_page_number}}"><i class="fa fa-angle-right" ></i></a>
+        </div>
+        {% endif %}
+    <!-- End of Pagination -->
+        
+        
+    </div>
+  </section>      
+
+{% endblock %}

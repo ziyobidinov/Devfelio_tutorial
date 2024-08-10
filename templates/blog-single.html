@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+  <!--/ Intro Skew Star /-->
+  <div class="intro intro-single route bg-image" style="background-image: url(/static/img/overlay-bg.jpg)">
+    <div class="overlay-mf"></div>
+    <div class="intro-content display-table">
+      <div class="table-cell">
+        <div class="container">
+          <h2 class="intro-title mb-4">Blog Details</h2>
+          <ol class="breadcrumb d-flex justify-content-center">
+            <li class="breadcrumb-item">
+              <a href="{% url 'common:home' %}">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+              <a href="/blogs/">Library</a>
+            </li>
+            <li class="breadcrumb-item active">Data</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--/ Intro Skew End /-->
+
+  <!--/ Section Blog-Single Star /-->
+  <section class="blog-wrapper sect-pt4" id="blog">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="post-box">
+            <div class="post-thumb">
+              <img src="{{ object.large_image.url }}" class="img-fluid" alt="">
+            </div>
+            <div class="post-meta">
+              <h1 class="article-title">{{ object.title }}</h1>
+              <ul>
+                <li>
+                  <span class="ion-ios-person"></span>
+                  <a href="{% url 'common:blog-single' object.slug %}">{{ object.author }}</a>
+                </li>
+                <li>
+                  <span class="ion-pricetag"></span>
+                  {% for category in object.categories.all %}
+                  <a href="{% url 'common:blog-single' object.slug %}">{{ category.title }}</a>
+                  {% endfor %}
+                </li>
+                <li>
+                  <span class="ion-chatbox"></span>
+                  <a href="{% url 'common:blog-single' object.slug %}">{{object.read_time}}</a>
+                </li>
+              </ul>
+            </div>
+            <div class="article-content">
+              <p>
+                {{ object.content|safe }}
+              </p>
+            </div>
+          </div>
+          <div class="box-comments">
+            <div class="title-box-2">
+              <h4 class="title-comments title-left">Comments (34)</h4>
+            </div>
+            <ul class="list-comments">
+              {% for comment in comments %}
+              <li>
+                <div class="comment-avatar">
+                  <img src="/static/img/testimonial-2.jpg" alt="">
+                </div>
+                <div class="comment-details">
+                  <h4 class="comment-author">{{ comment.name }}</h4>
+                  <span>{{ comment.published_date }}</span>
+                  <p>
+                    {{ comment.comment }}
+                  </p>
+                  <a href="3">Reply</a>
+                </div>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+          <div class="form-comments">
+            <div class="title-box-2">
+              <h3 class="title-left">
+                Leave a Reply
+              </h3>
+            </div>
+            <form class="form-mf" method="post" action="{% url 'common:blog-comment' object.id %}">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <div class="form-group">
+                    <input type="text" class="form-control input-mf" id="inputName" placeholder="Name *" name="name" required>
+                  </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <div class="form-group">
+                    <input type="email" class="form-control input-mf" id="inputEmail1" placeholder="Email *" name="email" required>
+                  </div>
+                </div>
+                <div class="col-md-12 mb-3">
+                  <div class="form-group">
+                    <input type="subject" class="form-control input-mf" id="inputUrl" placeholder="Website" name="subject">
+                  </div>
+                </div>
+                <div class="col-md-12 mb-3">
+                  <div class="form-group">
+                    <textarea id="textMessage" class="form-control input-mf" placeholder="Comment *" name="comment"
+                      cols="45" rows="8" required></textarea>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <button type="submit" class="button button-a button-big button-rouded">Send Message</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="widget-sidebar sidebar-search">
+            <h5 class="sidebar-title">Search</h5>
+            <div class="sidebar-content">
+              <form>
+                <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Search for..." aria-label="Search for...">
+                  <span class="input-group-btn">
+                    <button class="btn btn-secondary btn-search" type="button">
+                      <span class="ion-android-search"></span>
+                    </button>
+                  </span>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="widget-sidebar">
+            <h5 class="sidebar-title">Recent Post</h5>
+            <div class="sidebar-content">
+              <ul class="list-sidebar">
+                <li>
+                  <a href="#">Atque placeat maiores.</a>
+                </li>
+                <li>
+                  <a href="#">Lorem ipsum dolor sit amet consectetur</a>
+                </li>
+                <li>
+                  <a href="#">Nam quo autem exercitationem.</a>
+                </li>
+                <li>
+                  <a href="#">Atque placeat maiores nam quo autem</a>
+                </li>
+                <li>
+                  <a href="#">Nam quo autem exercitationem.</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="widget-sidebar">
+            <h5 class="sidebar-title">Archives</h5>
+            <div class="sidebar-content">
+              <ul class="list-sidebar">
+                <li>
+                  <a href="{% url 'common:blog-single' object.slug %}">{{ object.published_date }}</a>
+                </li>
+                <li>
+                  <a href="#">April, 2017.</a>
+                </li>
+                <li>
+                  <a href="#">Nam quo autem exercitationem.</a>
+                </li>
+                <li>
+                  <a href="#">Atque placeat maiores nam quo autem</a>
+                </li>
+                <li>
+                  <a href="#">Nam quo autem exercitationem.</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="widget-sidebar widget-tags">
+            <h5 class="sidebar-title">Tags</h5>
+            <div class="sidebar-content">
+              {% for tag in object.tags.all %}
+              <ul>
+                <li>
+                  <a href="{% url 'common:blog-single' object.slug %}">{{ tag.title }}</a>
+              </ul>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--/ Section Blog-Single End /-->
+
+{% endblock %}
